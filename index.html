@@ -67,6 +67,7 @@
       <nav aria-label="Primary navigation">
         <a href="#shop">Shop</a>
         <a href="#events">Events</a>
+        <a href="#calendar">Calendar</a>
         <a href="#visit">Visit</a>
         <a href="tel:+16505717529">Call</a>
       </nav>
@@ -189,6 +190,79 @@
         </div>
       </section>
 
+      <section id="calendar" class="calendar-section section">
+        <div class="section-heading split">
+          <div>
+            <p class="eyebrow">Calendar</p>
+            <h2>Plan the next game night.</h2>
+          </div>
+          <a class="button dark" href="https://www.gatorgames.com/events/weekly-events"
+            >Official events</a
+          >
+        </div>
+        <div class="calendar-shell">
+          <div class="calendar-toolbar" aria-label="Calendar controls">
+            <button class="icon-button" type="button" data-calendar-prev aria-label="Previous month">
+              ‹
+            </button>
+            <div>
+              <span class="toolbar-kicker">Store schedule</span>
+              <strong data-calendar-label>Loading</strong>
+            </div>
+            <button class="icon-button" type="button" data-calendar-next aria-label="Next month">
+              ›
+            </button>
+            <button class="today-button" type="button" data-calendar-today>Today</button>
+          </div>
+
+          <div class="calendar-filters" aria-label="Filter events">
+            <button class="filter-button active" type="button" data-filter="all">All</button>
+            <button class="filter-button" type="button" data-filter="magic">Magic</button>
+            <button class="filter-button" type="button" data-filter="wargaming">Wargaming</button>
+            <button class="filter-button" type="button" data-filter="yugioh">Yu-Gi-Oh</button>
+          </div>
+
+          <div class="calendar-layout">
+            <div class="calendar-card" aria-label="Monthly event calendar">
+              <div class="weekday-row" aria-hidden="true">
+                <span>Sun</span>
+                <span>Mon</span>
+                <span>Tue</span>
+                <span>Wed</span>
+                <span>Thu</span>
+                <span>Fri</span>
+                <span>Sat</span>
+              </div>
+              <div class="calendar-grid" data-calendar-grid></div>
+            </div>
+
+            <aside class="agenda-card" aria-label="Upcoming events">
+              <div>
+                <span class="toolbar-kicker">Upcoming</span>
+                <strong data-agenda-title>This month</strong>
+              </div>
+              <div class="agenda-list" data-agenda-list></div>
+            </aside>
+          </div>
+
+          <div class="google-calendar-card" data-google-calendar-card>
+            <div>
+              <span class="toolbar-kicker">Admin calendar</span>
+              <strong>Ready for Google Calendar sync</strong>
+              <p>
+                Add the admin calendar embed URL in <code>calendar.js</code> and this panel
+                will show the live Google Calendar feed.
+              </p>
+            </div>
+            <iframe
+              data-google-calendar-frame
+              title="Gator Games Google Calendar"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+      </section>
+
       <section id="visit" class="visit section">
         <div class="visit-copy">
           <p class="eyebrow">Visit</p>
@@ -234,5 +308,6 @@
       <span>4212 Olympic Ave, San Mateo, CA</span>
       <a href="https://www.gatorgames.com/">Original site</a>
     </footer>
+    <script src="/calendar.js"></script>
   </body>
 </html>
