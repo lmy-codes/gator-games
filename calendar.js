@@ -43,6 +43,7 @@ const state = {
   month: new Date().getMonth(),
   year: new Date().getFullYear(),
   filter: "all",
+  agendaExpanded: false,
 };
 
 const grid = document.querySelector("[data-calendar-grid]");
@@ -117,6 +118,11 @@ function visibleEvents(events) {
   return events.filter((event) => event.category === state.filter);
 }
 
+function futureEvents(events) {
+  const now = new Date();
+  return events.filter((event) => event.endDate >= now);
+}
+
 function renderCalendar() {
   const monthDate = new Date(state.year, state.month, 1);
   const allEvents = monthEvents(state.year, state.month);
@@ -128,6 +134,7 @@ function renderCalendar() {
 
   label.textContent = monthName;
   agendaTitle.textContent = state.filter === "all" ? "This month" : state.filter;
+  state.agendaExpanded = false;
   grid.innerHTML = "";
 
   const firstWeekday = monthDate.getDay();
@@ -161,7 +168,10 @@ function renderCalendar() {
       cell.append(chip);
     });
 
-    cell.addEventListener("click", () => renderAgenda(dayEvents.length ? dayEvents : events));
+    cell.addEventListener("click", () => {
+      state.agendaExpanded = false;
+      renderAgenda(dayEvents.length ? dayEvents : events);
+    });
     grid.append(cell);
   }
 
@@ -169,15 +179,19 @@ function renderCalendar() {
 }
 
 function renderAgenda(events) {
-  const sortedEvents = [...events].sort((a, b) => a.startDate - b.startDate);
+  const sortedEvents = futureEvents(events).sort((a, b) => a.startDate - b.startDate);
+  const previewLimit = 3;
+  const displayedEvents = state.agendaExpanded
+    ? sortedEvents
+    : sortedEvents.slice(0, previewLimit);
   agenda.innerHTML = "";
 
   if (!sortedEvents.length) {
-    agenda.innerHTML = `<p class="empty-agenda">No events match this filter.</p>`;
+    agenda.innerHTML = `<p class="empty-agenda">No upcoming events match this filter.</p>`;
     return;
   }
 
-  sortedEvents.slice(0, 8).forEach((event) => {
+  displayedEvents.forEach((event) => {
     const item = document.createElement("article");
     item.className = "agenda-item";
     item.innerHTML = `
@@ -194,6 +208,31 @@ function renderAgenda(events) {
     `;
     agenda.append(item);
   });
+
+  if (sortedEvents.length > previewLimit) {
+    const toggle = document.createElement("button");
+    const hiddenCount = sortedEvents.length - previewLimit;
+
+    toggle.type = "button";
+    toggle.className = "agenda-toggle";
+    toggle.textContent = state.agendaExpanded
+      ? "Show Less"
+      : `See All ${sortedEvents.length} Events`;
+    toggle.setAttribute(
+      "aria-expanded",
+      state.agendaExpanded ? "true" : "false",
+    );
+    toggle.addEventListener("click", () => {
+      state.agendaExpanded = !state.agendaExpanded;
+      renderAgenda(sortedEvents);
+    });
+
+    if (!state.agendaExpanded) {
+      toggle.dataset.count = `${hiddenCount} more`;
+    }
+
+    agenda.append(toggle);
+  }
 }
 
 function initGoogleCalendar() {
@@ -240,6 +279,7 @@ document.querySelector("[data-calendar-today]").addEventListener("click", () => 
 document.querySelectorAll("[data-filter]").forEach((button) => {
   button.addEventListener("click", () => {
     state.filter = button.dataset.filter;
+    state.agendaExpanded = false;
     document.querySelectorAll("[data-filter]").forEach((item) => {
       item.classList.toggle("active", item === button);
     });

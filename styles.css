@@ -664,6 +664,26 @@ footer {
   text-transform: uppercase;
 }
 
+.agenda-toggle {
+  min-height: 48px;
+  width: 100%;
+  border: 3px solid var(--ink);
+  border-radius: 8px;
+  background: var(--lime);
+  color: var(--ink);
+  cursor: pointer;
+  font-weight: 950;
+  text-transform: uppercase;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.32);
+}
+
+.agenda-toggle::after {
+  content: attr(data-count);
+  margin-left: 8px;
+  color: rgba(17, 23, 25, 0.66);
+  font-size: 12px;
+}
+
 .google-calendar-card {
   display: grid;
   grid-template-columns: 0.8fr 1.2fr;
