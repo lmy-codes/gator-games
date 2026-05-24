@@ -687,10 +687,6 @@ footer {
   background: white;
 }
 
-.google-calendar-card.calendar-placeholder {
-  grid-template-columns: 1fr;
-}
-
 .visit {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(320px, 430px);

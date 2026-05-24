@@ -200,12 +200,12 @@ function renderAgenda(events) {
 
 function initGoogleCalendar() {
   if (!GOOGLE_CALENDAR_EMBED_URL) {
-    googleCard.classList.add("calendar-placeholder");
-    googleFrame.hidden = true;
+    googleCard.hidden = true;
     return;
   }
 
   googleFrame.src = GOOGLE_CALENDAR_EMBED_URL;
+  googleCard.hidden = false;
   googleFrame.hidden = false;
 }
 
