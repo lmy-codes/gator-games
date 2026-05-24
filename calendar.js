@@ -49,8 +49,6 @@ const grid = document.querySelector("[data-calendar-grid]");
 const label = document.querySelector("[data-calendar-label]");
 const agenda = document.querySelector("[data-agenda-list]");
 const agendaTitle = document.querySelector("[data-agenda-title]");
-const googleCard = document.querySelector("[data-google-calendar-card]");
-const googleFrame = document.querySelector("[data-google-calendar-frame]");
 
 function pad(value) {
   return String(value).padStart(2, "0");
@@ -200,13 +198,18 @@ function renderAgenda(events) {
 
 function initGoogleCalendar() {
   if (!GOOGLE_CALENDAR_EMBED_URL) {
-    googleCard.hidden = true;
     return;
   }
 
+  const googleCard = document.createElement("div");
+  const googleFrame = document.createElement("iframe");
+
+  googleCard.className = "google-calendar-card";
+  googleFrame.title = "Gator Games Google Calendar";
+  googleFrame.loading = "lazy";
   googleFrame.src = GOOGLE_CALENDAR_EMBED_URL;
-  googleCard.hidden = false;
-  googleFrame.hidden = false;
+  googleCard.append(googleFrame);
+  document.querySelector(".calendar-shell").append(googleCard);
 }
 
 document.querySelector("[data-calendar-prev]").addEventListener("click", () => {
